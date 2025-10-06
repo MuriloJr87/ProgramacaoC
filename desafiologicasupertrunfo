@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+// Estrutura que representa uma carta
+typedef struct {
+    char nome[50];
+    int ataque;
+    int defesa;
+    int magia;
+} Carta;
+
+int main() {
+    // Criando duas cartas fixas
+    Carta jogador, computador;
+
+    strcpy(jogador.nome, "Cavaleiro das Chamas");
+    jogador.ataque = 80;
+    jogador.defesa = 60;
+    jogador.magia = 40;
+
+    strcpy(computador.nome, "Mago das Sombras");
+    computador.ataque = 50;
+    computador.defesa = 45;
+    computador.magia = 90;
+
+    printf("=== Desafio Lógica Super Trunfo ===\n\n");
+
+    // Mostrando carta do jogador
+    printf("Sua carta: %s\n", jogador.nome);
+    printf(" 1) Ataque: %d\n", jogador.ataque);
+    printf(" 2) Defesa: %d\n", jogador.defesa);
+    printf(" 3) Magia: %d\n", jogador.magia);
+
+    // Jogador escolhe atributo
+    int escolha;
+    printf("\nEscolha o atributo para comparar (1-3): ");
+    scanf("%d", &escolha);
+
+    int valorJogador, valorComputador;
+
+    // Estrutura condicional define qual atributo será comparado
+    if (escolha == 1) {
+        valorJogador = jogador.ataque;
+        valorComputador = computador.ataque;
+        printf("\nAtributo escolhido: Ataque\n");
