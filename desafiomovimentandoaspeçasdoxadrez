@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <string.h>
+
+#define TAM 8
+
+// Função para imprimir o tabuleiro
+void imprimir_tabuleiro(int tab[TAM][TAM]) {
+    printf("\nTabuleiro:\n");
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            printf("%d ", tab[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int tabuleiro[TAM][TAM] = {0}; // 0 = vazio, 1 = posição da peça, 2 = movimentos possíveis
+    char peca[10];
+    int linha, coluna;
+
+    printf("=== Desafio Movimentando as Pecas do Xadrez ===\n\n");
+    printf("Escolha a peca (peao, torre, bispo, cavalo): ");
+    scanf("%s", peca);
+
+    printf("Digite a posicao inicial (linha e coluna, de 0 a 7): ");
+    scanf("%d %d", &linha, &coluna);
+
+    // Marca a posição inicial
+    tabuleiro[linha][coluna] = 1;
+
+    // Movimentos possíveis (simplificados)
+    if (strcmp(peca, "peao") == 0) {
+        if (linha > 0) tabuleiro[linha-1][coluna] = 2; // anda 1 pra frente
+    } 
+    else if (strcmp(peca, "torre") == 0) {
+        for (int i = 0; i < TAM; i++) {
+            if (i != linha) tabuleiro[i][coluna] = 2;
+            if (i != coluna) tabuleiro[linha][i] = 2;
+        }
+    } 
+    else if (strcmp(peca, "bispo") == 0) {
+        for (int i = 1; i < TAM; i++) {
+            if (linha+i < TAM && coluna+i < TAM) tabuleiro[linha+i][coluna+i] = 2;
+            if (linha-i >= 0 && coluna-i >= 0) tabuleiro[linha-i][coluna-i] = 2;
+            if (linha+i < TAM && coluna-i >= 0) tabuleiro[linha+i][coluna-i] = 2;
+            if (linha-i >= 0 && coluna+i < TAM) tabuleiro[linha-i][coluna+i] = 2;
+        }
+    } 
+    else if (strcmp(peca, "cavalo") == 0) {
+        int movimentos[8][2] = {
+            {-2, -1}, {-2, +1}, {-1, -2}, {-1, +2},
+            {+1, -2}, {+1, +2}, {+2, -1}, {+2, +1}
+        };
+        for (int i = 0; i < 8; i++) {
+            int nl = linha + movimentos[i][0];
+            int nc = coluna + movimentos[i][1];
+            if (nl >= 0 && nl < TAM && nc >= 0 && nc < TAM) {
+                tabuleiro[nl][nc] = 2;
+            }
+        }
+    } 
+    else {
+        printf("Peca nao reconhecida.\n");
+    }
+
+    imprimir_tabuleiro(tabuleiro);
+
+    printf("\nLegenda: 0 = vazio | 1 = posicao da peca | 2 = movimentos possiveis\n");
+
+    return 0;
+}
